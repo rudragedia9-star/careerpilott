@@ -27,20 +27,20 @@ export const api = {
     return res.json();
   },
 
-  async login(email: string) {
+  async login(email: string, password: string) {
     const res = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ email, password }),
     });
     return res.json();
   },
 
-  async signup(name: string, email: string, educationLevel: string) {
+  async signup(name: string, email: string, password: string) {
     const res = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, educationLevel }),
+      body: JSON.stringify({ name, email, password }),
     });
     return res.json();
   },

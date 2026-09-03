@@ -20,6 +20,7 @@ import { AuthModal } from './components/auth/AuthModal';
 import { OnboardingModal } from './components/onboarding/OnboardingModal';
 import { ToastContainer } from './components/common/Toast';
 import { LandingPage } from './components/landing/LandingPage';
+import { LoginPage } from './components/auth/LoginPage';
 import { Sparkles, Globe, LayoutDashboard } from 'lucide-react';
 import { ActiveTab } from './types';
 
@@ -51,8 +52,12 @@ const tabToPathMap: Record<ActiveTab, string> = {
 };
 
 const MainAppContent: React.FC = () => {
-  const { activeTab, setActiveTab, isLoading, theme } = useApp();
+  const { activeTab, setActiveTab, isLoading, isAuthenticated, theme } = useApp();
   const [showLanding, setShowLanding] = useState(false);
+  const [showLogin, setShowLogin] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.location.pathname === '/' || window.location.pathname === '/login';
+  });
 
   // Sync initial URL on mount and handle browser back/forward buttons (Multi-page routing)
   useEffect(() => {
@@ -60,8 +65,15 @@ const MainAppContent: React.FC = () => {
       const pathname = window.location.pathname.toLowerCase();
       if (pathname === '/landing') {
         setShowLanding(true);
+        setShowLogin(false);
         return;
       }
+      if (pathname === '/login') {
+        setShowLogin(true);
+        setShowLanding(false);
+        return;
+      }
+      setShowLogin(false);
       setShowLanding(false);
       const matchedTab = pathToTabMap[pathname];
       if (matchedTab && matchedTab !== activeTab) {
@@ -73,6 +85,10 @@ const MainAppContent: React.FC = () => {
     const pathname = window.location.pathname.toLowerCase();
     if (pathname === '/landing') {
       setShowLanding(true);
+    } else if (pathname === '/') {
+      setShowLogin(true);
+    } else if (pathname === '/login') {
+      setShowLogin(true);
     } else if (pathToTabMap[pathname]) {
       setActiveTab(pathToTabMap[pathname]);
     }
@@ -81,15 +97,30 @@ const MainAppContent: React.FC = () => {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  const handleLoginSuccess = () => {
+    setShowLogin(false);
+    setActiveTab('home');
+    window.history.pushState(null, '', '/dashboard');
+  };
+
   // When activeTab changes, synchronize browser URL without full page reload
   useEffect(() => {
     if (!showLanding) {
+      if (showLogin) return;
       const targetPath = tabToPathMap[activeTab] || '/dashboard';
       if (window.location.pathname !== targetPath) {
         window.history.pushState(null, '', targetPath);
       }
     }
-  }, [activeTab, showLanding]);
+  }, [activeTab, showLanding, showLogin]);
+
+  useEffect(() => {
+    if (!isLoading && isAuthenticated && showLogin) {
+      setShowLogin(false);
+      setActiveTab('home');
+      window.history.replaceState(null, '', '/dashboard');
+    }
+  }, [isLoading, isAuthenticated, showLogin, setActiveTab]);
 
   const handleOpenLanding = () => {
     setShowLanding(true);
@@ -121,6 +152,10 @@ const MainAppContent: React.FC = () => {
         <ToastContainer />
       </>
     );
+  }
+
+  if (showLogin) {
+    return <LoginPage onSuccess={handleLoginSuccess} />;
   }
 
   return (

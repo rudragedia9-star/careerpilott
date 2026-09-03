@@ -3,17 +3,20 @@ import { useApp } from '../../context/AppContext';
 import { X, Sparkles, Lock, Mail, User, ArrowRight, CheckCircle2 } from 'lucide-react';
 
 export const AuthModal: React.FC = () => {
-  const { isAuthModalOpen, closeAuthModal, authModalMode, loginAsDemo, addToast, openOnboarding } = useApp();
+  const { isAuthModalOpen, closeAuthModal, authModalMode, login, signup, loginAsDemo, addToast, openOnboarding } = useApp();
   const [mode, setMode] = useState<'login' | 'signup' | 'forgot'>(authModalMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [forgotSent, setForgotSent] = useState(false);
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isAuthModalOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     if (mode === 'forgot') {
       setForgotSent(true);
       addToast({
@@ -25,16 +28,29 @@ export const AuthModal: React.FC = () => {
     }
 
     if (mode === 'signup') {
-      addToast({
-        type: 'success',
-        title: 'Account Created',
-        message: `Welcome to CareerPilot AI, ${name || 'Learner'}! Let's set up your profile.`,
-      });
-      closeAuthModal();
-      openOnboarding();
+      setIsSubmitting(true);
+      try {
+        await signup(name, email, password);
+        addToast({ type: 'success', title: 'Account Created', message: `Welcome to CareerPilot AI, ${name || 'Learner'}!` });
+        closeAuthModal();
+        setMode('login');
+        openOnboarding();
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unable to create your account');
+      } finally {
+        setIsSubmitting(false);
+      }
     } else {
-      loginAsDemo();
-      closeAuthModal();
+      setIsSubmitting(true);
+      try {
+        await login(email, password);
+        closeAuthModal();
+        window.history.pushState(null, '', '/dashboard');
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unable to sign in');
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -93,6 +109,7 @@ export const AuthModal: React.FC = () => {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
+              {error && <p role="alert" className="rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-xs font-medium text-red-700">{error}</p>}
               {mode === 'signup' && (
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">Full Name</label>
@@ -155,9 +172,10 @@ export const AuthModal: React.FC = () => {
 
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className="w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-600/25 transition flex items-center justify-center gap-1.5 mt-2"
               >
-                <span>{mode === 'login' ? 'Sign In' : mode === 'signup' ? 'Create Account' : 'Send Reset Link'}</span>
+                <span>{isSubmitting ? 'Please wait...' : mode === 'login' ? 'Sign In' : mode === 'signup' ? 'Create Account' : 'Send Reset Link'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 

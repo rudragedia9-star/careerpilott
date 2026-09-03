@@ -706,6 +706,27 @@ class DatabaseManager {
     return this.data.profiles.find(p => p.user_id === userId);
   }
 
+  public createUserProfile(userId: string, name: string, email: string) {
+    if (this.getProfile(userId)) return this.getProfile(userId);
+
+    this.data.users.push({ id: userId, email, role: 'student', created_at: new Date().toISOString() });
+    const profile = {
+      id: `prof-${userId}`,
+      user_id: userId,
+      name,
+      email,
+      education_level: 'High School Senior / Early College',
+      current_class: '12th Grade / CS Track',
+      interests: [],
+      work_preferences: [],
+      joined_date: new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+      is_onboarded: false,
+    };
+    this.data.profiles.push(profile);
+    this.saveData(this.data);
+    return profile;
+  }
+
   public updateProfile(userId: string, updates: any) {
     const profileIndex = this.data.profiles.findIndex(p => p.user_id === userId);
     if (profileIndex >= 0) {

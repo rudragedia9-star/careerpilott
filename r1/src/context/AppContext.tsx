@@ -33,6 +33,8 @@ interface AppContextType {
   user: UserProfile | null;
   isAuthenticated: boolean;
   isOnboarded: boolean;
+  login: (email: string, password: string) => Promise<any>;
+  signup: (name: string, email: string, password: string) => Promise<any>;
   loginAsDemo: () => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (data: Partial<UserProfile>) => Promise<void>;
@@ -116,7 +118,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   });
   const [activeTab, setActiveTab] = useState<ActiveTab>('home');
   const [user, setUser] = useState<UserProfile | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isOnboarded, setIsOnboarded] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -259,8 +261,34 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   useEffect(() => {
-    refreshAllData();
+    const restoreSession = async () => {
+      try {
+        const auth = await api.getAuthMe();
+        setIsAuthenticated(Boolean(auth.isAuthenticated));
+        if (auth.isAuthenticated) await refreshAllData();
+      } catch (err) {
+        console.error('Failed to restore auth session:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    restoreSession();
   }, []);
+
+  const login = async (email: string, password: string) => {
+    const result = await api.login(email, password);
+    if (!result.success) throw new Error(result.error || 'Unable to sign in');
+    setIsAuthenticated(true);
+    await refreshAllData();
+    return result;
+  };
+
+  const signup = async (name: string, email: string, password: string) => {
+    const result = await api.signup(name, email, password);
+    if (!result.success) throw new Error(result.error || 'Unable to create your account');
+    await login(email, password);
+    return result;
+  };
 
   const loginAsDemo = async () => {
     try {
@@ -395,6 +423,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setActiveTab,
         user,
         isAuthenticated,
+        login,
+        signup,
         isOnboarded,
         loginAsDemo,
         logout,

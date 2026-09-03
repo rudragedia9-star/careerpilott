@@ -2,6 +2,9 @@ import { config as loadEnv } from 'dotenv';
 import express from 'express';
 import path from 'path';
 import { createServer as createViteServer } from 'vite';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import mongodb from './lib/mongodb.js';
 import { db } from './server/db.ts';
 import { AIService } from './server/gemini.ts';
 
@@ -13,8 +16,21 @@ const HOST = process.env.HOST || '127.0.0.1';
 
 app.use(express.json());
 
-// Current active session user (Defaults to Aarav demo user)
-let currentUserId = 'demo-user-aarav';
+const JWT_SECRET = process.env.JWT_SECRET || 'careerpilot-development-secret';
+const AUTH_COOKIE = 'careerpilot_session';
+const getCurrentUserId = (req: express.Request) => (req as any).userId || 'demo-user-aarav';
+
+app.use((req, _res, next) => {
+  const token = req.headers.cookie?.split(';').map(value => value.trim()).find(value => value.startsWith(`${AUTH_COOKIE}=`))?.split('=')[1];
+  if (token) {
+    try {
+      (req as any).userId = (jwt.verify(token, JWT_SECRET) as jwt.JwtPayload).sub;
+    } catch {
+      // Treat invalid or expired sessions as signed out.
+    }
+  }
+  next();
+});
 
 // --- Health Check ---
 app.get('/api/health', (req, res) => {
@@ -27,60 +43,87 @@ app.get('/api/health', (req, res) => {
 
 // --- Auth Endpoints ---
 app.get('/api/auth/me', (req, res) => {
-  const user = db.getUser(currentUserId);
-  const profile = db.getProfile(currentUserId);
-  res.json({ user, profile, isAuthenticated: Boolean(user) });
+  const userId = getCurrentUserId(req);
+  const isAuthenticated = Boolean((req as any).userId);
+  const user = db.getUser(userId);
+  const profile = db.getProfile(userId);
+  res.json({ user: profile || user, profile, isAuthenticated });
 });
 
 app.post('/api/auth/demo', (req, res) => {
-  currentUserId = 'demo-user-aarav';
-  const user = db.getUser(currentUserId);
-  const profile = db.getProfile(currentUserId);
+  const user = db.getUser('demo-user-aarav');
+  const profile = db.getProfile('demo-user-aarav');
+  const token = jwt.sign({ sub: 'demo-user-aarav' }, JWT_SECRET, { expiresIn: '7d' });
+  res.setHeader('Set-Cookie', `${AUTH_COOKIE}=${token}; HttpOnly; Path=/; SameSite=Lax; Max-Age=604800`);
   res.json({ success: true, user, profile });
 });
 
-app.post('/api/auth/login', (req, res) => {
-  const { email } = req.body;
-  // If email matches or is demo, sign in as demo or standard user
-  currentUserId = 'demo-user-aarav';
-  const user = db.getUser(currentUserId);
-  const profile = db.getProfile(currentUserId);
-  res.json({ success: true, user, profile });
-});
+app.post('/api/auth/login', async (req, res) => {
+  const { email, password } = req.body || {};
+  const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+  if (!normalizedEmail || typeof password !== 'string') return res.status(400).json({ error: 'Email and password are required' });
 
-app.post('/api/auth/signup', (req, res) => {
-  const { name, email, educationLevel } = req.body;
-  currentUserId = 'demo-user-aarav';
-  if (name || educationLevel) {
-    db.updateProfile(currentUserId, {
-      name: name || 'Aarav',
-      education_level: educationLevel || 'High School Senior / Early College',
-      is_onboarded: false,
-    });
+  try {
+    const mongo = await mongodb;
+    const user = await mongo.db('carrerai').collection('users').findOne({ email: normalizedEmail });
+    if (!user || !(await bcrypt.compare(password, user.passwordHash))) return res.status(401).json({ error: 'Invalid email or password' });
+    const userId = String(user._id);
+    db.createUserProfile(userId, user.name, user.email);
+    const token = jwt.sign({ sub: userId }, JWT_SECRET, { expiresIn: '7d' });
+    res.setHeader('Set-Cookie', `${AUTH_COOKIE}=${token}; HttpOnly; Path=/; SameSite=Lax; Max-Age=604800`);
+    return res.json({ success: true, user: { name: user.name, email: user.email }, profile: db.getProfile(userId) });
+  } catch (error) {
+    console.error('Login failed:', error);
+    return res.status(500).json({ error: 'Unable to sign in right now' });
   }
-  const user = db.getUser(currentUserId);
-  const profile = db.getProfile(currentUserId);
-  res.json({ success: true, user, profile });
+});
+
+app.post('/api/auth/signup', async (req, res) => {
+  const { name, email, password } = req.body || {};
+  const normalizedEmail = typeof email === 'string' ? email.trim().toLowerCase() : '';
+  if (typeof name !== 'string' || !name.trim() || !normalizedEmail || typeof password !== 'string') return res.status(400).json({ error: 'Name, email, and password are required' });
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) return res.status(400).json({ error: 'Please enter a valid email address' });
+  if (password.length < 8) return res.status(400).json({ error: 'Password must be at least 8 characters' });
+
+  try {
+    const mongo = await mongodb;
+    const users = mongo.db('carrerai').collection('users');
+    await users.createIndex({ email: 1 }, { unique: true });
+    if (await users.findOne({ email: normalizedEmail })) return res.status(409).json({ error: 'An account with this email already exists' });
+    let result;
+    try {
+      result = await users.insertOne({ name: name.trim(), email: normalizedEmail, passwordHash: await bcrypt.hash(password, 10), createdAt: new Date() });
+    } catch (error: any) {
+      if (error?.code === 11000) return res.status(409).json({ error: 'An account with this email already exists' });
+      throw error;
+    }
+    db.createUserProfile(String(result.insertedId), name.trim(), normalizedEmail);
+    return res.status(201).json({ success: true, user: { name: name.trim(), email: normalizedEmail } });
+  } catch (error) {
+    console.error('Signup failed:', error);
+    return res.status(500).json({ error: 'Unable to create your account right now' });
+  }
 });
 
 app.post('/api/auth/logout', (req, res) => {
+  res.setHeader('Set-Cookie', `${AUTH_COOKIE}=; HttpOnly; Path=/; SameSite=Lax; Max-Age=0`);
   res.json({ success: true });
 });
 
 // --- Profile & Onboarding ---
 app.get('/api/profile', (req, res) => {
-  const profile = db.getProfile(currentUserId);
+  const profile = db.getProfile(getCurrentUserId(req));
   res.json(profile);
 });
 
 app.put('/api/profile', (req, res) => {
-  const updated = db.updateProfile(currentUserId, req.body);
+  const updated = db.updateProfile(getCurrentUserId(req), req.body);
   res.json(updated);
 });
 
 app.post('/api/onboarding/complete', (req, res) => {
   const { name, educationLevel, currentClass, interests, workPreferences, targetCareer } = req.body;
-  const updatedProfile = db.updateProfile(currentUserId, {
+  const updatedProfile = db.updateProfile(getCurrentUserId(req), {
     name: name || 'Aarav',
     education_level: educationLevel || 'High School Senior / Early College',
     current_class: currentClass || '12th Grade / CS Track',
@@ -90,24 +133,25 @@ app.post('/api/onboarding/complete', (req, res) => {
   });
 
   if (targetCareer) {
-    db.setCareerGoal(currentUserId, targetCareer);
+    db.setCareerGoal(getCurrentUserId(req), targetCareer);
   }
 
   // Recalculate readiness
-  const readiness = db.recalculateReadiness(currentUserId);
+  const readiness = db.recalculateReadiness(getCurrentUserId(req));
   res.json({ profile: updatedProfile, readiness });
 });
 
 // --- Dashboard (Section 4) ---
 app.get('/api/dashboard', (req, res) => {
-  const profile = db.getProfile(currentUserId);
-  const careerGoal = db.getCareerGoal(currentUserId);
-  const readiness = db.getReadinessScore(currentUserId);
-  const skills = db.getUserSkills(currentUserId);
-  const skillGaps = db.getSkillGaps(currentUserId);
-  const learningProgress = db.getLearningProgress(currentUserId);
-  const learningResources = db.getLearningResources(currentUserId);
-  const interviewSessions = db.getInterviewSessions(currentUserId);
+  const userId = getCurrentUserId(req);
+  const profile = db.getProfile(userId);
+  const careerGoal = db.getCareerGoal(userId);
+  const readiness = db.getReadinessScore(userId);
+  const skills = db.getUserSkills(userId);
+  const skillGaps = db.getSkillGaps(userId);
+  const learningProgress = db.getLearningProgress(userId);
+  const learningResources = db.getLearningResources(userId);
+  const interviewSessions = db.getInterviewSessions(userId);
 
   // Separate strengths vs focus areas
   const strengths = skills.filter(s => s.is_strength);
@@ -165,8 +209,8 @@ app.get('/api/careers', (req, res) => {
 app.get('/api/careers/:id', (req, res) => {
   const career = db.getCareerById(req.params.id);
   if (!career) return res.status(404).json({ error: 'Career not found' });
-  const userSkills = db.getUserSkills(currentUserId);
-  const skillGaps = db.getSkillGaps(currentUserId);
+  const userSkills = db.getUserSkills(getCurrentUserId(req));
+  const skillGaps = db.getSkillGaps(getCurrentUserId(req));
   res.json({ career, userSkills, skillGaps });
 });
 
@@ -179,36 +223,36 @@ app.post('/api/careers/compare', (req, res) => {
 
 app.post('/api/career-goal', (req, res) => {
   const { careerId, timeline } = req.body;
-  const goal = db.setCareerGoal(currentUserId, careerId, timeline);
+  const goal = db.setCareerGoal(getCurrentUserId(req), careerId, timeline);
   res.json(goal);
 });
 
 // --- Skills & Skill Gaps ---
 app.get('/api/skills', (req, res) => {
-  const skills = db.getUserSkills(currentUserId);
-  const gaps = db.getSkillGaps(currentUserId);
+  const skills = db.getUserSkills(getCurrentUserId(req));
+  const gaps = db.getSkillGaps(getCurrentUserId(req));
   res.json({ skills, gaps });
 });
 
 app.post('/api/skills/update', (req, res) => {
   const { skillName, proficiency } = req.body;
-  const updated = db.updateUserSkill(currentUserId, skillName, proficiency);
+  const updated = db.updateUserSkill(getCurrentUserId(req), skillName, proficiency);
   res.json(updated);
 });
 
 // --- Learning (Sections 13 & 14) ---
 app.get('/api/learning', (req, res) => {
-  const resources = db.getLearningResources(currentUserId);
-  const progress = db.getLearningProgress(currentUserId);
-  const careerGoal = db.getCareerGoal(currentUserId);
+  const resources = db.getLearningResources(getCurrentUserId(req));
+  const progress = db.getLearningProgress(getCurrentUserId(req));
+  const careerGoal = db.getCareerGoal(getCurrentUserId(req));
   res.json({ resources, progress, careerGoal });
 });
 
 app.post('/api/learning/update-progress', (req, res) => {
   const { resourceId, progress, completed } = req.body;
   const updated = db.updateResourceProgress(resourceId, progress, completed);
-  const overallProgress = db.getLearningProgress(currentUserId);
-  const readiness = db.getReadinessScore(currentUserId);
+  const overallProgress = db.getLearningProgress(getCurrentUserId(req));
+  const readiness = db.getReadinessScore(getCurrentUserId(req));
   res.json({ resource: updated, overallProgress, readiness });
 });
 
@@ -216,13 +260,14 @@ app.post('/api/learning/update-progress', (req, res) => {
 app.post('/api/ai/coach', async (req, res) => {
   try {
     const { message, history } = req.body;
-    const profile = db.getProfile(currentUserId);
-    const careerGoal = db.getCareerGoal(currentUserId);
-    const readiness = db.getReadinessScore(currentUserId);
-    const skills = db.getUserSkills(currentUserId);
-    const skillGaps = db.getSkillGaps(currentUserId);
-    const learningProgress = db.getLearningProgress(currentUserId);
-    const recentInterviews = db.getInterviewSessions(currentUserId);
+    const userId = getCurrentUserId(req);
+    const profile = db.getProfile(userId);
+    const careerGoal = db.getCareerGoal(userId);
+    const readiness = db.getReadinessScore(userId);
+    const skills = db.getUserSkills(userId);
+    const skillGaps = db.getSkillGaps(userId);
+    const learningProgress = db.getLearningProgress(userId);
+    const recentInterviews = db.getInterviewSessions(userId);
 
     const userContext = {
       name: profile?.name || 'Aarav',
@@ -311,7 +356,7 @@ app.post('/api/ai/mock-interview/complete', async (req, res) => {
 
     // Save session to database and update readiness
     const savedSession = db.saveInterviewSession({
-      userId: currentUserId,
+      userId: getCurrentUserId(req),
       role: role || 'Software Engineer',
       difficulty: difficulty || 'Intermediate',
       type: type || 'Mixed',
@@ -323,7 +368,7 @@ app.post('/api/ai/mock-interview/complete', async (req, res) => {
       questionsCount: qaList?.length || 4,
     });
 
-    const updatedReadiness = db.getReadinessScore(currentUserId);
+    const updatedReadiness = db.getReadinessScore(getCurrentUserId(req));
     res.json({
       session: savedSession,
       evaluation: evaluationResult,
@@ -335,13 +380,13 @@ app.post('/api/ai/mock-interview/complete', async (req, res) => {
 });
 
 app.get('/api/interview-sessions', (req, res) => {
-  const sessions = db.getInterviewSessions(currentUserId);
+  const sessions = db.getInterviewSessions(getCurrentUserId(req));
   res.json(sessions);
 });
 
 // --- Achievements ---
 app.get('/api/achievements', (req, res) => {
-  const achievements = db.getAchievements(currentUserId);
+  const achievements = db.getAchievements(getCurrentUserId(req));
   res.json(achievements);
 });
 

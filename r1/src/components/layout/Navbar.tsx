@@ -1,20 +1,25 @@
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { Sparkles, Bot, Mic, RotateCcw, Compass, LogIn, Sun, Moon } from 'lucide-react';
+import { Sparkles, Bot, Mic, Compass, LogIn, Sun, Moon } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const {
     activeTab,
     setActiveTab,
     openInterviewModal,
-    resetToDemo,
     isAuthenticated,
     openAuthModal,
     readinessScore,
     user,
+    logout,
     theme,
     toggleTheme
   } = useApp();
+
+  const handleSignOut = async () => {
+    await logout();
+    window.location.assign('/');
+  };
 
   const getTitle = () => {
     switch (activeTab) {
@@ -96,15 +101,18 @@ export const Navbar: React.FC = () => {
         )}
 
         {/* User Pill Badge (Theme layout) */}
-        <div
-          onClick={() => setActiveTab('profile')}
-          className="hidden sm:flex bg-white px-3.5 py-1.5 rounded-xl border border-slate-200 items-center gap-2.5 cursor-pointer hover:border-slate-300 transition"
-        >
-          <div className="w-7 h-7 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold text-xs">
-            {user?.name ? user.name[0] : '?'}
-          </div>
-          <span className="font-medium text-xs text-slate-800">{user?.name || 'Your profile'}</span>
-        </div>
+        {isAuthenticated && (
+          <button
+            onClick={handleSignOut}
+            title={`Sign out ${user?.name || 'of your account'}`}
+            className="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-slate-700 hover:border-rose-200 hover:bg-rose-50 hover:text-rose-700 transition text-xs font-semibold"
+          >
+            <div className="w-7 h-7 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold text-xs">
+              {user?.name ? user.name[0] : '?'}
+            </div>
+            <span>Sign Out</span>
+          </button>
+        )}
 
         {/* Upgrade Pro / Action Button */}
         <button
@@ -113,15 +121,6 @@ export const Navbar: React.FC = () => {
         >
           <Sparkles className="w-3.5 h-3.5 text-amber-300" />
           <span>Resume ATS</span>
-        </button>
-
-        {/* Reset Demo Button */}
-        <button
-          onClick={resetToDemo}
-          title="Reset demo profile"
-          className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition border border-slate-200"
-        >
-          <RotateCcw className="w-4 h-4" />
         </button>
 
         <button

@@ -5,6 +5,18 @@
       "email": "aarav.sharma@careerpilot.ai",
       "role": "student",
       "created_at": "2026-08-01T00:00:00.000Z"
+    },
+    {
+      "id": "6a99b95f2f629f74d163a285",
+      "email": "vinayak23@gmail.com",
+      "role": "student",
+      "created_at": "2026-09-03T18:15:59.646Z"
+    },
+    {
+      "id": "6a99931e6d83f47b49112efc",
+      "email": "parthpatel2008@gmail.com",
+      "role": "student",
+      "created_at": "2026-09-03T18:16:42.155Z"
     }
   ],
   "profiles": [
@@ -28,6 +40,30 @@
       "avatar_url": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80",
       "joined_date": "August 2026",
       "is_onboarded": true
+    },
+    {
+      "id": "prof-6a99b95f2f629f74d163a285",
+      "user_id": "6a99b95f2f629f74d163a285",
+      "name": "vinayak",
+      "email": "vinayak23@gmail.com",
+      "education_level": "High School Senior / Early College",
+      "current_class": "12th Grade / CS Track",
+      "interests": [],
+      "work_preferences": [],
+      "joined_date": "September 2026",
+      "is_onboarded": false
+    },
+    {
+      "id": "prof-6a99931e6d83f47b49112efc",
+      "user_id": "6a99931e6d83f47b49112efc",
+      "name": "parth patel",
+      "email": "parthpatel2008@gmail.com",
+      "education_level": "High School Senior / Early College",
+      "current_class": "12th Grade / CS Track",
+      "interests": [],
+      "work_preferences": [],
+      "joined_date": "September 2026",
+      "is_onboarded": false
     }
   ],
   "career_goals": [
@@ -39,7 +75,7 @@
       "match_score": 91,
       "target_timeline": "2027 Internship & Full-Time Role",
       "status": "active",
-      "updated_at": "2026-09-03T13:53:17.941Z"
+      "updated_at": "2026-09-03T18:01:02.137Z"
     }
   ],
   "careers": [
