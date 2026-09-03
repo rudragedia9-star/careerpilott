@@ -1,0 +1,6 @@
+{
+  "name": "CareerPilot AI",
+  "description": "Your AI-powered career journey. Discover career matches, bridge skill gaps, optimize ATS resumes, benchmark salaries, learn with roadmaps, and practice AI mock interviews.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

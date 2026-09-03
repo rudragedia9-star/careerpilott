@@ -1,0 +1,811 @@
+{
+  "users": [
+    {
+      "id": "demo-user-aarav",
+      "email": "aarav.sharma@careerpilot.ai",
+      "role": "student",
+      "created_at": "2026-08-01T00:00:00.000Z"
+    }
+  ],
+  "profiles": [
+    {
+      "id": "prof-aarav",
+      "user_id": "demo-user-aarav",
+      "name": "Aarav",
+      "education_level": "High School Senior / Early College",
+      "current_class": "12th Grade / CS Track",
+      "interests": [
+        "Technology",
+        "Engineering",
+        "Problem Solving",
+        "Artificial Intelligence"
+      ],
+      "work_preferences": [
+        "Solving problems",
+        "Building things",
+        "Analyzing information"
+      ],
+      "avatar_url": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80",
+      "joined_date": "August 2026",
+      "is_onboarded": true
+    }
+  ],
+  "career_goals": [
+    {
+      "id": "cg-aarav-1",
+      "user_id": "demo-user-aarav",
+      "career_id": "car-swe",
+      "career_title": "Software Engineer",
+      "match_score": 91,
+      "target_timeline": "2027 Internship & Full-Time Role",
+      "status": "active",
+      "updated_at": "2026-09-03T13:53:17.941Z"
+    }
+  ],
+  "careers": [
+    {
+      "id": "car-swe",
+      "title": "Software Engineer",
+      "category": "Technology & Computing",
+      "short_description": "Architect, design, and build resilient web apps, systems, and software solutions.",
+      "description": "Software Engineers translate complex real-world requirements into clean, scalable software architecture. You will work with front-end frameworks, back-end APIs, cloud infrastructure, and databases to deliver user-centric applications.",
+      "avg_salary": "$118,000 - $165,000 / yr",
+      "growth_rate": "+25% (Much faster than average)",
+      "responsibilities": [
+        "Write clean, testable, and robust TypeScript / Python code",
+        "Collaborate with product designers and engineering teams on architecture",
+        "Build APIs and integrate database persistence layers",
+        "Troubleshoot performance bottlenecks and optimize applications"
+      ],
+      "required_skills": [
+        {
+          "name": "Python",
+          "importance": "critical"
+        },
+        {
+          "name": "Data Structures & Algorithms",
+          "importance": "critical"
+        },
+        {
+          "name": "Problem Solving",
+          "importance": "critical"
+        },
+        {
+          "name": "SQL & Database Systems",
+          "importance": "high"
+        },
+        {
+          "name": "Git & Version Control",
+          "importance": "high"
+        },
+        {
+          "name": "Communication",
+          "importance": "high"
+        }
+      ],
+      "work_style": "Collaborative problem solving, agile sprints, high autonomy",
+      "difficulty": "Challenging",
+      "match_score": 91,
+      "match_breakdown": {
+        "aptitude": 94,
+        "interests": 92,
+        "personality": 88,
+        "current_skills": 82
+      },
+      "why_it_matches": "Your high aptitude in computational reasoning (94%) and proven passion for building technology products (92%) make Software Engineering an outstanding natural alignment. Your strong foundations in Python and problem solving give you an immediate competitive advantage.",
+      "recommended_next_step": "Reinforce SQL database modeling and complete intermediate Data Structures to boost interview readiness."
+    },
+    {
+      "id": "car-ds",
+      "title": "Data Scientist",
+      "category": "Data & Analytics",
+      "short_description": "Extract statistical insights, build predictive models, and guide decisions with data.",
+      "description": "Data Scientists combine programming skills, statistical knowledge, and machine learning techniques to uncover patterns and actionable predictions from massive datasets.",
+      "avg_salary": "$122,000 - $170,000 / yr",
+      "growth_rate": "+36% (Explosive demand)",
+      "responsibilities": [
+        "Develop machine learning models and statistical pipelines",
+        "Query large datasets with SQL and analyze data using Python/Pandas",
+        "Communicate data-driven recommendations to executive stakeholders",
+        "Design experiments, A/B tests, and metric evaluation frameworks"
+      ],
+      "required_skills": [
+        {
+          "name": "Python",
+          "importance": "critical"
+        },
+        {
+          "name": "Statistics & Math",
+          "importance": "critical"
+        },
+        {
+          "name": "SQL & Database Systems",
+          "importance": "critical"
+        },
+        {
+          "name": "Machine Learning",
+          "importance": "high"
+        },
+        {
+          "name": "Data Visualization",
+          "importance": "high"
+        },
+        {
+          "name": "Analytical Thinking",
+          "importance": "high"
+        }
+      ],
+      "work_style": "Deep analytical investigation, hypothesis testing, cross-functional storytelling",
+      "difficulty": "High",
+      "match_score": 87,
+      "match_breakdown": {
+        "aptitude": 92,
+        "interests": 86,
+        "personality": 84,
+        "current_skills": 76
+      },
+      "why_it_matches": "Your analytical mindset and strong Python capabilities are well suited for Data Science. Bridging your SQL and applied statistics knowledge will quickly bring your readiness to the 90%+ tier.",
+      "recommended_next_step": "Take the SQL Fundamentals and Applied Statistics learning modules."
+    },
+    {
+      "id": "car-pm",
+      "title": "Product Manager",
+      "category": "Leadership & Strategy",
+      "short_description": "Define product vision, rally engineering & design, and lead product launches.",
+      "description": "Product Managers sit at the intersection of business strategy, technology, and user experience, defining what features get built and why.",
+      "avg_salary": "$115,000 - $160,000 / yr",
+      "growth_rate": "+18% (Fast growth)",
+      "responsibilities": [
+        "Define product roadmap, user stories, and measurable OKRs",
+        "Interview users to discover pain points and validate solutions",
+        "Coordinate cross-functional development with engineers and designers",
+        "Analyze product analytics to guide iterations"
+      ],
+      "required_skills": [
+        {
+          "name": "Communication",
+          "importance": "critical"
+        },
+        {
+          "name": "Problem Solving",
+          "importance": "critical"
+        },
+        {
+          "name": "Product Strategy",
+          "importance": "critical"
+        },
+        {
+          "name": "User Research",
+          "importance": "high"
+        },
+        {
+          "name": "Data Analysis",
+          "importance": "high"
+        }
+      ],
+      "work_style": "Stakeholder communication, strategic planning, team facilitation",
+      "difficulty": "Moderate",
+      "match_score": 79,
+      "match_breakdown": {
+        "aptitude": 82,
+        "interests": 78,
+        "personality": 86,
+        "current_skills": 70
+      },
+      "why_it_matches": "Your high empathy, problem-solving skills, and tech aptitude provide a solid platform for product leadership, particularly in tech-driven startups.",
+      "recommended_next_step": "Engage in team project leadership and practice structured product interview frameworks."
+    },
+    {
+      "id": "car-ux",
+      "title": "UI/UX Product Designer",
+      "category": "Design & Human-Computer Interaction",
+      "short_description": "Design intuitive interfaces, user workflows, and delightful digital experiences.",
+      "description": "Product Designers research customer journeys, sketch wireframes, create interactive prototypes, and craft design systems that delight users.",
+      "avg_salary": "$95,000 - $145,000 / yr",
+      "growth_rate": "+16% (Steady growth)",
+      "responsibilities": [
+        "Design intuitive flows, wireframes, and interactive mockups",
+        "Conduct usability testing with students and users",
+        "Collaborate with frontend engineers on design system consistency",
+        "Advocate for accessibility and clean visual hierarchy"
+      ],
+      "required_skills": [
+        {
+          "name": "Design Systems",
+          "importance": "critical"
+        },
+        {
+          "name": "User Research",
+          "importance": "critical"
+        },
+        {
+          "name": "Prototyping",
+          "importance": "high"
+        },
+        {
+          "name": "Communication",
+          "importance": "high"
+        }
+      ],
+      "work_style": "Creative visual exploration, iterative user testing, empathetic design",
+      "difficulty": "Moderate",
+      "match_score": 74,
+      "match_breakdown": {
+        "aptitude": 76,
+        "interests": 80,
+        "personality": 78,
+        "current_skills": 62
+      },
+      "why_it_matches": "Your eye for structure and enthusiasm for building useful tools translates well into design, though technical engineering remains your highest scoring fit.",
+      "recommended_next_step": "Explore UX prototyping tools and design hierarchy fundamentals."
+    },
+    {
+      "id": "car-csec",
+      "title": "Cybersecurity Analyst",
+      "category": "Security & Infrastructure",
+      "short_description": "Protect systems, audit networks, and defend applications from cyber vulnerabilities.",
+      "description": "Cybersecurity Analysts assess threat vectors, audit code and network topology, and respond to incidents to safeguard sensitive student and corporate data.",
+      "avg_salary": "$105,000 - $155,000 / yr",
+      "growth_rate": "+32% (Critical global demand)",
+      "responsibilities": [
+        "Conduct penetration testing and vulnerability assessments",
+        "Monitor network traffic and implement intrusion detection systems",
+        "Educate teams on security hygiene and secure coding practices",
+        "Formulate incident response plans and recovery workflows"
+      ],
+      "required_skills": [
+        {
+          "name": "Networking Fundamentals",
+          "importance": "critical"
+        },
+        {
+          "name": "Python",
+          "importance": "high"
+        },
+        {
+          "name": "Security Auditing",
+          "importance": "critical"
+        },
+        {
+          "name": "Problem Solving",
+          "importance": "high"
+        }
+      ],
+      "work_style": "Analytical defense, high attention to detail, protocol rigor",
+      "difficulty": "High",
+      "match_score": 81,
+      "match_breakdown": {
+        "aptitude": 88,
+        "interests": 82,
+        "personality": 80,
+        "current_skills": 68
+      },
+      "why_it_matches": "Your strong deductive problem-solving score aligns naturally with security auditing and threat defense logic.",
+      "recommended_next_step": "Review TCP/IP networking fundamentals and secure coding paradigms."
+    }
+  ],
+  "skills": [
+    {
+      "id": "sk-py",
+      "name": "Python",
+      "category": "technical",
+      "description": "Core Python syntax, OOP, script automation, and libraries"
+    },
+    {
+      "id": "sk-ps",
+      "name": "Problem Solving",
+      "category": "soft",
+      "description": "Algorithmic reasoning, analytical decomposition, debugging"
+    },
+    {
+      "id": "sk-comm",
+      "name": "Communication",
+      "category": "soft",
+      "description": "Expressing technical thoughts clearly, presentation, active listening"
+    },
+    {
+      "id": "sk-sql",
+      "name": "SQL",
+      "category": "technical",
+      "description": "Relational database querying, joins, indexing, and data schema design"
+    },
+    {
+      "id": "sk-dsa",
+      "name": "Data Structures",
+      "category": "technical",
+      "description": "Arrays, hash maps, trees, graphs, space & time complexity analysis"
+    },
+    {
+      "id": "sk-git",
+      "name": "Git & Version Control",
+      "category": "technical",
+      "description": "Branching, PRs, merge workflows, and collaborative repo hygiene"
+    },
+    {
+      "id": "sk-ml",
+      "name": "Machine Learning",
+      "category": "technical",
+      "description": "Supervised/unsupervised models, training, evaluation metrics"
+    },
+    {
+      "id": "sk-stat",
+      "name": "Statistics",
+      "category": "domain",
+      "description": "Probability, hypothesis testing, regression analysis"
+    }
+  ],
+  "user_skills": [
+    {
+      "id": "us-1",
+      "user_id": "demo-user-aarav",
+      "skill_id": "sk-py",
+      "skill_name": "Python",
+      "proficiency": 78,
+      "is_strength": true,
+      "is_gap": false,
+      "target_career_relevance": "critical"
+    },
+    {
+      "id": "us-2",
+      "user_id": "demo-user-aarav",
+      "skill_id": "sk-ps",
+      "skill_name": "Problem Solving",
+      "proficiency": 88,
+      "is_strength": true,
+      "is_gap": false,
+      "target_career_relevance": "critical"
+    },
+    {
+      "id": "us-3",
+      "user_id": "demo-user-aarav",
+      "skill_id": "sk-comm",
+      "skill_name": "Communication",
+      "proficiency": 65,
+      "is_strength": true,
+      "is_gap": false,
+      "target_career_relevance": "high"
+    },
+    {
+      "id": "us-4",
+      "user_id": "demo-user-aarav",
+      "skill_id": "sk-sql",
+      "skill_name": "SQL",
+      "proficiency": 42,
+      "is_strength": false,
+      "is_gap": true,
+      "target_career_relevance": "critical"
+    },
+    {
+      "id": "us-5",
+      "user_id": "demo-user-aarav",
+      "skill_id": "sk-dsa",
+      "skill_name": "Data Structures",
+      "proficiency": 51,
+      "is_strength": false,
+      "is_gap": true,
+      "target_career_relevance": "critical"
+    }
+  ],
+  "skill_gaps": [
+    {
+      "id": "sg-1",
+      "user_id": "demo-user-aarav",
+      "skill_name": "SQL",
+      "current_level": 42,
+      "required_level": 80,
+      "gap_size": 38,
+      "priority": "urgent",
+      "recommended_resource_title": "SQL Fundamentals & Relational Queries",
+      "reason": "SQL is currently one of your largest skill gaps for your target career in Software Engineering."
+    },
+    {
+      "id": "sg-2",
+      "user_id": "demo-user-aarav",
+      "skill_name": "Data Structures",
+      "current_level": 51,
+      "required_level": 85,
+      "gap_size": 34,
+      "priority": "urgent",
+      "recommended_resource_title": "Essential Data Structures for Technical Interviews",
+      "reason": "Essential for passing intermediate coding assessments and technical rounds."
+    },
+    {
+      "id": "sg-3",
+      "user_id": "demo-user-aarav",
+      "skill_name": "Communication & System Explanations",
+      "current_level": 65,
+      "required_level": 80,
+      "gap_size": 15,
+      "priority": "medium",
+      "recommended_resource_title": "Behavioral Interview & STAR Framework Mastery",
+      "reason": "Helps articulate architecture trade-offs cleanly to senior interviewers."
+    }
+  ],
+  "assessments": [
+    {
+      "id": "ass-1",
+      "title": "Cognitive & Computational Aptitude",
+      "category": "aptitude",
+      "estimated_time": "10 min",
+      "description": "Evaluates logical decomposition, mathematical pattern identification, and deductive reasoning."
+    },
+    {
+      "id": "ass-2",
+      "title": "Career Personality & Work Style",
+      "category": "personality",
+      "estimated_time": "8 min",
+      "description": "Identifies your collaboration preferences, autonomy appetite, and problem-solving temperament."
+    },
+    {
+      "id": "ass-3",
+      "title": "SQL Core Skills Assessment",
+      "category": "technical",
+      "estimated_time": "12 min",
+      "description": "Quick check on SELECT queries, JOIN operations, and aggregation filters."
+    }
+  ],
+  "assessment_questions": [
+    {
+      "id": "aq-1",
+      "assessment_type": "aptitude",
+      "category": "Algorithmic Logic",
+      "question": "When analyzing two algorithms, Algorithm A takes 2^n operations while Algorithm B takes n^3 operations for an input size of 100. Which will execute faster?",
+      "options": [
+        {
+          "label": "Algorithm A is exponentially faster",
+          "value": "A"
+        },
+        {
+          "label": "Algorithm B is polynomial and vastly faster for n=100",
+          "value": "B"
+        },
+        {
+          "label": "Both perform identically at n=100",
+          "value": "C"
+        },
+        {
+          "label": "It depends solely on the operating system clock speed",
+          "value": "D"
+        }
+      ]
+    },
+    {
+      "id": "aq-2",
+      "assessment_type": "aptitude",
+      "category": "System Decomposition",
+      "question": "When a web application encounters a slow query fetching user profiles with order history, what is typically the first optimization to inspect?",
+      "options": [
+        {
+          "label": "Rewriting the entire backend in C++",
+          "value": "A"
+        },
+        {
+          "label": "Missing database indexes on foreign keys and join columns",
+          "value": "B"
+        },
+        {
+          "label": "Increasing the browser client screen resolution",
+          "value": "C"
+        },
+        {
+          "label": "Converting all text fields into single characters",
+          "value": "D"
+        }
+      ]
+    },
+    {
+      "id": "aq-3",
+      "assessment_type": "personality",
+      "category": "Work Temperament",
+      "question": "When tackling an ambiguous project with minimal initial guidelines, you typically prefer to:",
+      "options": [
+        {
+          "label": "Immediately write a prototype or code sandbox to test ideas experimentally",
+          "value": "A"
+        },
+        {
+          "label": "Gather team opinions, conduct user interviews, and align stakeholders",
+          "value": "B"
+        },
+        {
+          "label": "Deeply research mathematical formulas and academic papers first",
+          "value": "C"
+        },
+        {
+          "label": "Wait for a strict, itemized specification before starting",
+          "value": "D"
+        }
+      ]
+    }
+  ],
+  "assessment_results": [
+    {
+      "id": "ar-1",
+      "user_id": "demo-user-aarav",
+      "assessment_type": "aptitude",
+      "title": "Cognitive & Computational Aptitude",
+      "score": 86,
+      "completed_at": "2026-08-15T14:30:00.000Z",
+      "traits": {
+        "analytical": 92,
+        "computational_reasoning": 88,
+        "pattern_recognition": 84,
+        "speed": 80
+      },
+      "summary": "Demonstrates exceptional capability in algorithmic thinking and structural decomposition."
+    },
+    {
+      "id": "ar-2",
+      "user_id": "demo-user-aarav",
+      "assessment_type": "personality",
+      "title": "Career Personality & Work Style",
+      "score": 84,
+      "completed_at": "2026-08-18T10:15:00.000Z",
+      "traits": {
+        "autonomy": 88,
+        "curiosity": 94,
+        "team_collaboration": 76,
+        "adaptability": 82
+      },
+      "summary": "Thrives in builder environments with creative freedom to prototype and engineer solutions."
+    }
+  ],
+  "career_recommendations": [
+    {
+      "id": "cr-1",
+      "user_id": "demo-user-aarav",
+      "career_id": "car-swe",
+      "rank": 1,
+      "match_score": 91,
+      "match_tier": "Top Match",
+      "primary_reason": "Exceptional computational aptitude (94%) paired with established Python fundamentals (78%)."
+    },
+    {
+      "id": "cr-2",
+      "user_id": "demo-user-aarav",
+      "career_id": "car-ds",
+      "rank": 2,
+      "match_score": 87,
+      "match_tier": "High Match",
+      "primary_reason": "High analytical problem-solving with opportunity to accelerate SQL and predictive statistics."
+    },
+    {
+      "id": "cr-3",
+      "user_id": "demo-user-aarav",
+      "career_id": "car-csec",
+      "rank": 3,
+      "match_score": 81,
+      "match_tier": "Strong Match",
+      "primary_reason": "Great deductive troubleshooting fit for vulnerability discovery and system security."
+    }
+  ],
+  "learning_resources": [
+    {
+      "id": "lr-sql",
+      "title": "SQL Fundamentals & Relational Queries",
+      "skill": "SQL",
+      "category": "Database Architecture",
+      "difficulty": "Beginner",
+      "duration": "3.5 hrs",
+      "progress": 65,
+      "completed": false,
+      "recommended_reason": "Recommended because SQL is currently one of your biggest skill gaps for Software Engineering.",
+      "phase": 1,
+      "step_order": 2
+    },
+    {
+      "id": "lr-py",
+      "title": "Python Mastery: OOP & Clean Architecture",
+      "skill": "Python",
+      "category": "Software Engineering",
+      "difficulty": "Intermediate",
+      "duration": "4.0 hrs",
+      "progress": 100,
+      "completed": true,
+      "recommended_reason": "Solidify object-oriented principles to write clean maintainable production code.",
+      "phase": 1,
+      "step_order": 1
+    },
+    {
+      "id": "lr-dsa",
+      "title": "Data Structures: HashMaps, Trees & Graphs",
+      "skill": "Data Structures",
+      "category": "Algorithms",
+      "difficulty": "Intermediate",
+      "duration": "5.5 hrs",
+      "progress": 40,
+      "completed": false,
+      "recommended_reason": "Essential prerequisite for passing technical coding screens and optimizing memory overhead.",
+      "phase": 2,
+      "step_order": 3
+    },
+    {
+      "id": "lr-git",
+      "title": "Git, GitHub & Collaborative PR Workflows",
+      "skill": "Git & Version Control",
+      "category": "Engineering Tooling",
+      "difficulty": "Beginner",
+      "duration": "2.0 hrs",
+      "progress": 90,
+      "completed": false,
+      "recommended_reason": "Required for teaming up on production repos and managing branches effortlessly.",
+      "phase": 2,
+      "step_order": 4
+    },
+    {
+      "id": "lr-prep",
+      "title": "Technical & Behavioral Interview Playbook",
+      "skill": "Communication",
+      "category": "Career Readiness",
+      "difficulty": "Intermediate",
+      "duration": "3.0 hrs",
+      "progress": 50,
+      "completed": false,
+      "recommended_reason": "Master the STAR method and live whiteboard communication strategies.",
+      "phase": 4,
+      "step_order": 6
+    },
+    {
+      "id": "lr-proj",
+      "title": "Capstone Project: Full-Stack Cloud Microservice",
+      "skill": "Problem Solving",
+      "category": "Applied Projects",
+      "difficulty": "Advanced",
+      "duration": "8.0 hrs",
+      "progress": 35,
+      "completed": false,
+      "recommended_reason": "Showcase real-world API engineering and database modeling on your resume.",
+      "phase": 3,
+      "step_order": 5
+    }
+  ],
+  "learning_progress": [
+    {
+      "id": "lp-aarav",
+      "user_id": "demo-user-aarav",
+      "overall_percentage": 64,
+      "completed_modules": 5,
+      "total_modules": 8,
+      "hours_spent": 18.5,
+      "current_streak_days": 5,
+      "last_active_date": "2026-09-02T18:00:00.000Z"
+    }
+  ],
+  "interview_sessions": [
+    {
+      "id": "int-session-1",
+      "user_id": "demo-user-aarav",
+      "role": "Software Engineer",
+      "difficulty": "Intermediate",
+      "type": "Mixed",
+      "score": 78,
+      "date": "Aug 28, 2026",
+      "breakdown": {
+        "technical_knowledge": 82,
+        "communication": 74,
+        "problem_solving": 81,
+        "answer_relevance": 79,
+        "structure": 71
+      },
+      "what_you_did_well": [
+        "Demonstrated crisp explanation of hash map lookups and O(1) average time complexity.",
+        "Proactively walked through edge cases with empty and boundary inputs.",
+        "High enthusiasm and clear interest in backend scalability."
+      ],
+      "what_to_improve": [
+        "Organize behavioral responses tightly using the STAR framework (Situation, Task, Action, Result).",
+        "Elaborate more deeply when asked about SQL indexing and foreign key constraints."
+      ],
+      "recommended_practice": "Practice explaining your projects using a clear situation → action → result structure, and review database indexing fundamentals.",
+      "questions_count": 4
+    }
+  ],
+  "interview_questions": [],
+  "interview_answers": [],
+  "interview_feedback": [],
+  "achievements": [
+    {
+      "id": "ach-1",
+      "code": "first_mock_interview",
+      "title": "First Mock Interview",
+      "description": "Completed your first AI simulated career interview",
+      "icon": "🏆",
+      "unlocked_at": "2026-08-28T16:20:00.000Z",
+      "progress": 100
+    },
+    {
+      "id": "ach-2",
+      "code": "career_goal_set",
+      "title": "Career Goal Set",
+      "description": "Locked in your primary target career milestone",
+      "icon": "🎯",
+      "unlocked_at": "2026-08-05T09:00:00.000Z",
+      "progress": 100
+    },
+    {
+      "id": "ach-3",
+      "code": "ten_hours_learned",
+      "title": "10 Hours Learned",
+      "description": "Invested over 10 dedicated hours mastering core skills",
+      "icon": "📚",
+      "unlocked_at": "2026-08-22T14:40:00.000Z",
+      "progress": 100
+    },
+    {
+      "id": "ach-4",
+      "code": "learning_streak",
+      "title": "5-Day Learning Streak",
+      "description": "Kept consistent momentum 5 consecutive days",
+      "icon": "🔥",
+      "unlocked_at": "2026-09-02T19:00:00.000Z",
+      "progress": 100
+    },
+    {
+      "id": "ach-5",
+      "code": "skill_bridge_master",
+      "title": "Skill Bridge Champion",
+      "description": "Boosted a critical skill gap by over 20% in 30 days",
+      "icon": "⚡",
+      "unlocked_at": null,
+      "progress": 65
+    }
+  ],
+  "user_achievements": [
+    {
+      "id": "ua-1",
+      "user_id": "demo-user-aarav",
+      "achievement_id": "ach-1",
+      "earned_at": "2026-08-28T16:20:00.000Z"
+    },
+    {
+      "id": "ua-2",
+      "user_id": "demo-user-aarav",
+      "achievement_id": "ach-2",
+      "earned_at": "2026-08-05T09:00:00.000Z"
+    },
+    {
+      "id": "ua-3",
+      "user_id": "demo-user-aarav",
+      "achievement_id": "ach-3",
+      "earned_at": "2026-08-22T14:40:00.000Z"
+    },
+    {
+      "id": "ua-4",
+      "user_id": "demo-user-aarav",
+      "achievement_id": "ach-4",
+      "earned_at": "2026-09-02T19:00:00.000Z"
+    }
+  ],
+  "readiness_scores": [
+    {
+      "id": "rs-aarav",
+      "user_id": "demo-user-aarav",
+      "overall": 72,
+      "change_this_month": 8,
+      "breakdown": {
+        "career_clarity": 85,
+        "skills": 70,
+        "communication": 68,
+        "interview_readiness": 78,
+        "learning_progress": 64
+      },
+      "history": [
+        {
+          "date": "June 2026",
+          "score": 58,
+          "label": "Initial Baseline"
+        },
+        {
+          "date": "July 2026",
+          "score": 64,
+          "label": "Aptitude Assessments"
+        },
+        {
+          "date": "August 2026",
+          "score": 72,
+          "label": "Current Progress"
+        }
+      ]
+    }
+  ]
+}
